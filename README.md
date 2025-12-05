@@ -26,13 +26,13 @@ This repository is organized to ensure the traceability and reproducibility of t
 
 ### 1. Prerequisites
 
-* **Operating System:** Tested on Windows 10/11.
-* **Software:** **R** (version 4.x.x) and **Python** (version 3.x.x) must be installed.
+* **Operating System:** WSL systwm.
+* **Software:** **R** and **Python**.
 * **Git LFS:** Required to download the processed data files in the `data/` directory.
 
 ### 2. Environment Setup
 
-All necessary R/Bioconductor and Python packages are listed in `environment/requirements.txt`.
+Necessary R/Bioconductor and Python packages.
 
 **For Python Dependencies:**
 
