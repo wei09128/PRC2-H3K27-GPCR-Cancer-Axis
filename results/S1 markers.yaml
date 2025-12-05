@@ -1,0 +1,187 @@
+# Cell Type Markers - FIXED VERSION (Non-overlapping)
+
+cell_types:
+  # ========== CANCER CELLS (Priority 1) ==========
+  
+  BC:
+    description: "Breast Cancer"
+    priority: 1
+    markers: [ESR1, ERBB2, GATA3, KRT19, FOXA1, PGR]  # Added FOXA1, PGR for specificity
+    negative_markers: [CD3D, CD68, PECAM1, DCN]  # NOT T-cell, macrophage, endothelial, or fibroblast
+    use_cnv: false  # Disabled temporarily due to CNV failure
+    marker_threshold: 0.7  # Increased threshold for specificity without CNV
+    cnv_threshold: 0.05
+    # Note: KRT19 shared with epithelial, but CNV requirement distinguishes
+
+  OC:
+    description: "Ovarian Cancer (Serous/High-grade)"
+    priority: 1
+    markers: [MUC16, WFDC2, PAX8, WT1]  # Added PAX8, WT1 for ovarian specificity
+    negative_markers: [CD3D, CD68, PECAM1, DCN]  # NOT immune or stromal
+    use_cnv: false  # Disabled temporarily due to CNV failure
+    marker_threshold: 0.7  # Increased threshold for specificity without CNV
+    cnv_threshold: 0.05
+    
+  EC:
+    description: "Endometrial Cancer"
+    priority: 1
+    markers: [ESR1, PGR, PAX8, PAEP]  # REMOVED MUC16! Use hormone receptors + PAX8 + PAEP
+    use_cnv: false  # Low-grade EC has less CNV
+    marker_threshold: 0.5
+    # Must have: High ESR1/PGR (distinguishes from BC by lacking ERBB2/GATA3)
+    
+  GC:
+    description: "Gastric Cancer (GIST)"
+    priority: 1
+    markers: [KIT, CD34, DOG1, PDGFRA]
+    negative_markers: [DCN, COL1A1, COL1A2, PECAM1, VWF, EPCAM, TPSAB1]
+    use_cnv: false  # ← CHANGE THIS FROM true TO false
+    marker_threshold: 0.55  # ← Increase threshold for specificity without CNV
+    cnv_threshold: 0.03
+
+  # ========== IMMUNE CELLS (Priority 2) ==========
+  
+  CD8_T:
+    description: "CD8+ T cells"
+    priority: 2
+    markers: [CD8A, CD8B, CD3D, CD3E, GZMB]
+    use_cnv: false
+    marker_threshold: 0.5
+    
+  CD4_T:
+    description: "CD4+ T cells"
+    priority: 2
+    markers: [CD4, CD3D, CD3E, IL7R, LTB]
+    use_cnv: false
+    marker_threshold: 0.5
+    
+  Tregs:
+    description: "Regulatory T cells"
+    priority: 2
+    markers: [FOXP3, IL2RA, CTLA4, IKZF2]
+    use_cnv: false
+    marker_threshold: 0.6
+    
+  NK_Cells:
+    description: "Natural Killer cells"
+    priority: 2
+    markers: [NCAM1, NKG7, GNLY, KLRD1, KLRF1]
+    use_cnv: false
+    marker_threshold: 0.5
+    
+  B_Cells:
+    description: "B cells"
+    priority: 2
+    markers: [CD79A, MS4A1, CD19]
+    use_cnv: false
+    marker_threshold: 0.5
+    
+  Plasma:
+    description: "Plasma cells"
+    priority: 2
+    markers: [IGHG1, IGHG3, JCHAIN, MZB1, SDC1]
+    use_cnv: false
+    marker_threshold: 0.6
+    
+  Macrophages:
+    description: "Macrophages"
+    priority: 2
+    markers: [CD68, CD163, C1QA, C1QB, MSR1]
+    use_cnv: false
+    marker_threshold: 0.5
+    
+  Monocytes:
+    description: "Monocytes"
+    priority: 2
+    markers: [CD14, FCGR3A, S100A8, S100A9, LYZ]
+    use_cnv: false
+    marker_threshold: 0.5
+    
+  Dendritic:
+    description: "Dendritic cells"
+    priority: 2
+    markers: [CD1C, CLEC9A, FCER1A, CLEC10A]
+    use_cnv: false
+    marker_threshold: 0.5
+    
+  Mast:
+    description: "Mast cells"
+    priority: 2
+    markers: [TPSAB1, TPSB2, CPA3, HDC]  # REMOVED KIT! Use tryptase + HDC instead
+    use_cnv: false
+    marker_threshold: 0.7  # High threshold for specific tryptase signature
+
+  # ========== STROMAL CELLS (Priority 3) ==========
+  
+  Fibroblasts:
+    description: "Fibroblasts (CAFs and normal)"
+    priority: 3
+    markers: [DCN, COL1A1, COL1A2, PDGFRA, LUM, FN1]
+    use_cnv: false
+    marker_threshold: 0.5
+    
+  Myofibroblasts:
+    description: "Myofibroblasts / activated fibroblasts"
+    priority: 3
+    markers: [ACTA2, TAGLN, MYH11, PDGFRB]
+    use_cnv: false
+    marker_threshold: 0.6
+    
+  Endothelial:
+    description: "Endothelial cells"
+    priority: 3
+    markers: [PECAM1, VWF, CDH5, CLDN5]
+    use_cnv: false
+    marker_threshold: 0.5
+    
+  Pericytes:
+    description: "Pericytes"
+    priority: 3
+    markers: [RGS5, PDGFRB, NDUFA4L2, MCAM]
+    use_cnv: false
+    marker_threshold: 0.5
+    
+  Smooth_Muscle:
+    description: "Smooth muscle cells"
+    priority: 3
+    markers: [ACTA2, MYH11, TAGLN, CNN1, MYOCD]
+    use_cnv: false
+    marker_threshold: 0.6
+
+  # ========== NORMAL EPITHELIAL (Priority 99 - Last) ==========
+  
+  Normal_Epithelial:
+    description: "Normal epithelial cells (must have LOW CNV)"
+    priority: 99
+    markers: [EPCAM, KRT8, KRT18, CDH1, MUC1]  # Removed KRT19 (cancer overlap)
+    use_cnv: false
+    marker_threshold: 0.5  # FIXED: Was 1.0, now realistic
+    cnv_max: 0.02  # Must have very low CNV
+    # Assigned LAST, after all cancer types checked
+
+  # ========== OTHER (Priority 4) ==========
+  
+  Adipocytes:
+    description: "Adipocytes"
+    priority: 4
+    markers: [ADIPOQ, PLIN1, FABP4, LPL]
+    use_cnv: false
+    marker_threshold: 0.6
+    
+  Mesothelial:
+    description: "Mesothelial cells"
+    priority: 4
+    markers: [MSLN, UPK3B, KRT5, WT1, CALB2]
+    use_cnv: false
+    marker_threshold: 0.5
+
+# KEY CHANGES:
+# 1. EC: Removed MUC16, now uses ESR1+PGR+PAX8+PAEP
+# 2. GC: Removed KIT, now uses CD34+DOG1+PDGFRA+SDHB
+# 3. Mast: Removed KIT, now uses TPSAB1+TPSB2+CPA3+HDC
+# 4. Normal_Epithelial: 
+#    - Removed KRT19 (cancer overlap)
+#    - Fixed marker_threshold: 1.0 → 0.5
+#    - Priority 99 (evaluated LAST)
+# 5. OC: Added PAX8+WT1 for specificity
+# 6. BC: Added FOXA1+PGR for specificity
