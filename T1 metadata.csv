@@ -1,0 +1,51 @@
+﻿GEO,Batch_ID,Sample_ID,Condition,Cancer_Type,Cancer_Status,Response_Status,Processing_Status
+GSE173682,A,A1,A_A1_Endometrial_IA_Unknown,EC,IA,less-Aggressive,never frozen or fixed
+GSE173682,A,A10,A_A10_Ovarian_IVB_Unknown,OC,IVB,Aggressive,never frozen or fixed
+GSE173682,A,A11,A_A11_Gastric_IV_Unknown,GC,IV,Aggressive,never frozen or fixed
+GSE173682,A,A2,A_A2_Endometrial_IA_Unknown,EC,IA,less-Aggressive,never frozen or fixed
+GSE173682,A,A3,A_A3_Endometrial_IA_Unknown,EC,IA,less-Aggressive,never frozen or fixed
+GSE173682,A,A4,A_A4_Endometrial_IA_Unknown,EC,IA,less-Aggressive,never frozen or fixed
+GSE173682,A,A5,A_A5_Endometrial_IA_Unknown,EC,IA,less-Aggressive,never frozen or fixed
+GSE173682,A,A6,A_A6_Endometrial_IIIA_Unknown,EC,IIIA,Aggressive,never frozen or fixed
+GSE173682,A,A7,A_A7_Ovarian_IA_Unknown,OC,IA,less-Aggressive,never frozen or fixed
+GSE173682,A,A8,A_A8_Ovarian_IIB_Unknown,OC,IIB,less-Aggressive,never frozen or fixed
+GSE173682,A,A9,A_A9_Ovarian_IIIC_Unknown,OC,IIIC,Aggressive,never frozen or fixed
+GSE243526,B,B1,B_B1_NormalBreast_NonCancer_Sensitive,Normal Breast Cells,NonCancer,non-Aggressive,never frozen or fixed
+GSE243526,B,B10,B_B10_Breast_ERpos_Equivocal,BC,Her2equivocal,less-Aggressive,never frozen or fixed
+GSE243526,B,B11,B_B11_Breast_ERpos_Her2neg,BC,Her2neg,less-Aggressive,never frozen or fixed
+GSE243526,B,B12,B_B12_Breast_ERpos_Equivocal,BC,Her2equivocal,less-Aggressive,never frozen or fixed
+GSE243526,B,B13,B_B13_Breast_ERpos_Her2neg,BC,Her2neg,less-Aggressive,never frozen or fixed
+GSE243526,B,B14,B_B14_Breast_ERpos_Her2neg,BC,Her2neg,Aggressive,never frozen or fixed
+GSE243526,B,B14B,B_B14B_Breast_ERpos_Her2neg,BC,Her2neg,Aggressive,never frozen or fixed
+GSE243526,B,B15,B_B15_Breast_ERpos_Equivocal,BC,Her2equivocal,Aggressive,never frozen or fixed
+GSE243526,B,B2,B_B2_NormalBreast_NonCancer_Sensitive,Normal Breast Cells,NonCancer,non-Aggressive,never frozen or fixed
+GSE243526,B,B3,B_B3_NormalBreast_NonCancer_Sensitive,Normal Breast Cells,NonCancer,non-Aggressive,never frozen or fixed
+GSE243526,B,B4,B_B4_NormalBreast_NonCancer_Sensitive,Normal Breast Cells,NonCancer,non-Aggressive,never frozen or fixed
+GSE243526,B,B5,B_B5_Breast_ERneg_Unknown,BC,Her2neg,Aggressive,never frozen or fixed
+GSE243526,B,B6,B_B6_Breast_TNBC_Unknown,BC,TNBC,Aggressive,never frozen or fixed
+GSE243526,B,B7,B_B7_Breast_TNBC_Unknown,BC,Her2neg,less-Aggressive,never frozen or fixed
+GSE243526,B,B8,B_B8_Breast_ERpos_Equivocal,BC,Her2equivocal,less-Aggressive,never frozen or fixed
+GSE243526,B,B9,B_B9_Breast_ERpos_Equivocal,BC,Her2equivocal,less-Aggressive,never frozen or fixed
+GSE164716,C,C1-1,C_C1_Breast_Unknown_Chemonaive,BC,TNBC,less-Aggressive,PDX
+GSE164716,C,C1-2,C_C1_Breast_Unknown_Persister,BC,TNBC,Persister,PDX
+GSE164716,C,C1-3,C_C1_Breast_Unknown_Recurrent,BC,TNBC,Recurrent,PDX
+GSE164716,C,C1-4,C_C1_Breast_Unknown_Residual,BC,TNBC,Residual,PDX
+GSE164716,C,C1-5,C_C1_Breast_Unknown_Resistant,BC,TNBC,Resistant,PDX
+GSE164716,C,C2-1,C_C2_Breast_Unknown_Chemonaive,BC,TNBC,less-Aggressive,PDX
+GSE164716,C,C2-2,C_C2_Breast_Unknown_Persister,BC,TNBC,Persister,PDX
+GSE164716,C,C3-1,C_C3_Breast_Unknown_Chemonaive,BC,TNBC,less-Aggressive,PDX
+GSE164716,C,C3-2,C_C3_Breast_Unknown_Persister,BC,TNBC,Persister,PDX
+GSE243526,CellLine,HCC1143,CellLine_HCC1143_Breast_TNBC_Sensitive,BC,TNBC,less-Aggressive,inVitro
+GSE243526,CellLine,MCF7,CellLine_MCF7_Breast_ERpos_Chemonaive,BC,ERpos,less-Aggressive,inVitro
+GSE164716,CellLine,MM468-5FU1-D214,CellLine_MM468-5FU1-D214_TNBC_InVitro_TNBC,BC,TNBC,Resistant,inVitro
+GSE164716,CellLine,MM468-5FU1-D33,CellLine_MM468-5FU1-D33_TNBC_InVitro_TNBC,BC,TNBC,Persister,inVitro
+GSE164716,CellLine,MM468-5FU2-D171,CellLine_MM468-5FU2-D171_TNBC_InVitro_TNBC,BC,TNBC,Resistant,inVitro
+GSE164716,CellLine,MM468-5FU2-D67,CellLine_MM468-5FU2-D67_TNBC_InVitro_TNBC,BC,TNBC,Persister,inVitro
+GSE164716,CellLine,MM468-5FU3-D202,CellLine_MM468-5FU3-D202_TNBC_InVitro_TNBC,BC,TNBC,Resistant,inVitro
+GSE164716,CellLine,MM468-5FU3-D50,CellLine_MM468-5FU3-D50_TNBC_InVitro_TNBC,BC,TNBC,Persister,inVitro
+GSE164716,CellLine,MM468-5FU3-D77,CellLine_MM468-5FU3-D77_TNBC_InVitro_TNBC,BC,TNBC,Persister,inVitro
+GSE164716,CellLine,MM468-5FUUnt-D33-H3K4me3,CellLine_MM468-5FUUnt-D33-H3K4me3_TNBC_InVitro_TNBC,BC,TNBC,Persister,inVitro
+GSE164716,CellLine,MM468-Untreated-D0-H3K4me3,CellLine_MM468-Untreated-D0-H3K4me3_TNBC_InVitro_TNBC,BC,TNBC,Persister,inVitro
+GSE164716,CellLine,MM468-Untreated-D33-H3K4me3,CellLine_MM468-Untreated-D33-H3K4me3_TNBC_InVitro_TNBC,BC,TNBC,Persister,inVitro
+GSE243526,CellLine,SUM149PT,CellLine_SUM149PT_Breast_TNBC_Resistant,BC,TNBC,Resistant,inVitro
+GSE243526,CellLine,T47D,CellLine_T47D_Breast_ERpos_Chemonaive,BC,ERpos,less-Aggressive,inVitro

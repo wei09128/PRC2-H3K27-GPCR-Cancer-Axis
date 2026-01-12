@@ -1,0 +1,206 @@
+conda activate bio_env
+cd /mnt/f/H3K27/Data
+
+conda activate meme_env
+
+sudo dd if=/dev/zero of=~/swapfile_128G bs=1G count=128
+sudo chmod 600 ~/swapfile_128G
+sudo mkswap ~/swapfile_128G
+sudo swapon ~/swapfile_128G
+free -h
+
+
+python /mnt/f/H3K27/Data/inspect_h5ad.py /mnt/f/H3K27/Data/scRNA/scRNA_final.h5ad
+python /mnt/f/H3K27/Data/inspect_h5ad.py /mnt/f/H3K27/Data/scATAC/scATAC_peaks_QC_BC_float64_clean.h5ad
+python /mnt/f/H3K27/Data/inspect_h5ad_scATAC.py /mnt/f/H3K27/Data/scATAC/scATAC_peaks_QC_BC_float64_clean.h5ad
+/mnt/f/H3K27/gencode.v47.annotation.gtf
+
+//------step 7------//
+------TF------
+python extract_peak_sequences.py
+mkdir /mnt/f/H3K27/Data/TF/FIMO_output
+bash motif_scan_parallel.sh
+
+python motif_scan.py
+     /mnt/f/H3K27/JASPAR_Vertebrates_nonredundant.meme \
+     /mnt/f/H3K27/Data/TF/scATAC_peak_sequences.fasta \
+     /mnt/f/H3K27/Data/TF/FIMO_output \
+     1e-3
+
+------scATAC------
+python3 integrate.py \
+  --mode scATAC \
+  --input /mnt/f/H3K27/scATAC_clean \
+  --output /mnt/f/H3K27/Data/scATAC/1/scATAC_1000k.h5ad \
+  --n-top-genes 10000000 \
+  --n-comps 100 \
+  --batch-key Condition \
+  --leiden-resolution 0.5
+python3 update_sample_id_scATAC.py
+python3 update_meta_ATAC.py
+python3 keep_raw_in_X.py \
+  --input /mnt/f/H3K27/Data/scATAC/1/scATAC_1000k_fixed2.h5ad
+python scATAC_qc_and_peak2gene_from_gtf.py \
+  --input_h5ad /mnt/f/H3K27/Data/scATAC/1/scATAC_1000k_fixed2_rawX.h5ad \
+  --gtf /mnt/f/H3K27/gencode.v47.annotation.gtf \
+  --output_qc_h5ad /mnt/f/H3K27/Data/scATAC/scATAC_peaks_QC.h5ad \
+  --output_gene_h5ad /mnt/f/H3K27/Data/scATAC/scATAC_gene_QC.h5ad \
+  --min_counts 1000 \
+  --min_peaks 500 \
+  --min_cells_per_peak 5 \
+  --tss_window 2000
+
+python inspect_h5ad.py /mnt/f/H3K27/Data/scATAC/1/scATAC_1000k_fixed2_rawX.h5ad
+python inspect_h5ad_scATAC.py /mnt/f/H3K27/Data/scATAC/1/scATAC_1000k_fixed2_rawX.h5ad
+python inspect_h5ad_scATAC.py \
+  /mnt/f/H3K27/Data/scATAC/scATAC_accessibility.h5ad \
+  --batch_key Condition \
+  --plot_dir ./ATAC_inspection_plots
+
+python3 atac_pseudobulk.py
+cd /mnt/f/H3K27/Data/scATAC_pseudo
+Rscript run_edger_batch.R
+
+cd /mnt/f/H3K27/Data/
+python make_rnk_for_gsea.py
+cd /mnt/f/H3K27/Data/scATAC_pseudo
+Rscript pre-rankedGSEA.R
+cd /mnt/f/H3K27/Data/
+python summarize_pseudobulk_ATAC.py
+
+
+//------step 6------//
+------scChi------
+python3 integrate.py \
+  --mode scATAC \
+  --input /mnt/f/H3K27/scChi_clean \
+  --output /mnt/f/H3K27/Data/scChi/1/scChi_1000k.h5ad \
+  --n-top-genes 10000000 \
+  --n-comps 100 \
+  --batch-key Condition \
+  --leiden-resolution 0.5
+python3 update_sample_id_scChi.py
+python3 update_sample_id_scChi1.py
+python3 update_meta_Chi.py
+python keep_raw_in_X.py \
+  --input /mnt/f/H3K27/Data/scChi/1/scChi_1000k_fixed2.h5ad
+
+python scATAC_qc_and_peak2gene_from_gtf.py \
+  --input_h5ad /mnt/f/H3K27/Data/scChi/1/scChi_1000k_fixed2_rawX.h5ad \
+  --gtf /mnt/f/H3K27/gencode.v47.annotation.gtf \
+  --output_qc_h5ad /mnt/f/H3K27/Data/scChi/scChi_peaks_QC.h5ad \
+  --output_gene_h5ad /mnt/f/H3K27/Data/scChi/scChi_gene_QC.h5ad \
+  --min_counts 1000 \
+  --min_peaks 500 \
+  --min_cells_per_peak 5 \
+  --tss_window 2000
+
+python inspect_h5ad.py /mnt/f/H3K27/Data/scChi/scChi_gene_QC.h5ad
+python inspect_h5ad_scATAC.py /mnt/f/H3K27/Data/scChi/scChi_gene_QC.h5ad
+python inspect_h5ad_scATAC.py \
+  /mnt/f/H3K27/Data/scChi/scChi_accessibility.h5ad \
+  --batch_key Condition \
+  --plot_dir ./Chi_inspection_plots
+
+python3 chi_pseudobulk.py
+cd /mnt/f/H3K27/Data/scChi_pseudo
+Rscript run_edger_batch.R
+cd /mnt/f/H3K27/Data/
+python make_rnk_for_gsea.py
+cd /mnt/f/H3K27/Data/scChi_pseudo
+Rscript pre-rankedGSEA.R
+cd /mnt/f/H3K27/Data/
+python summarize_pseudobulk_Chi.py
+
+------scRNA------
+python /mnt/f/H3K27/Data/dge_aggressiveness.py \
+  --h5ad_path /mnt/f/H3K27/Data/scRNA/scRNA_final.h5ad \
+  --cancer_type BC \
+  --output_dir /mnt/f/H3K27/Data/CCC_BC \
+  --cell_type_key cell_type \
+  --status_key Response_Status \
+  --raw_layer raw_counts
+python /mnt/f/H3K27/Data/dge_aggressiveness.py \
+  --h5ad_path /mnt/f/H3K27/Data/scRNA/scRNA_final.h5ad \
+  --cancer_type OC \
+  --output_dir /mnt/f/H3K27/Data/CCC_OC \
+  --cell_type_key cell_type \
+  --status_key Response_Status \
+  --raw_layer raw_counts
+python /mnt/f/H3K27/Data/dge_aggressiveness.py \
+  --h5ad_path /mnt/f/H3K27/Data/scRNA/scRNA_final.h5ad \
+  --cancer_type EC \
+  --output_dir /mnt/f/H3K27/Data/CCC_EC \
+  --cell_type_key cell_type \
+  --status_key Response_Status \
+  --raw_layer raw_counts
+python  dge_aggressiveness.py \
+  --h5ad_path /mnt/f/H3K27/Data/scRNA/scRNA_final.h5ad \
+  --output_dir /mnt/f/H3K27/Data/GSEA/PanGyne_scRNA_Wilcoxon \
+  --cell_type_key cell_type \
+  --status_key Response_Status \
+  --raw_layer raw_counts
+
+//------step 5------//
+python pathway.py \
+  --ora_input /mnt/f/H3K27/Data/CCC/dge_genes_for_pathway_analysis.csv \
+  --gsea_input /mnt/f/H3K27/Data/CCC/dge_wilcoxon_full_results.csv \
+  --outdir /mnt/f/H3K27/Data/CCC/
+python pathway.py \
+  --ora_input /mnt/f/H3K27/Data/CCC_BC/dge_genes_for_pathway_analysis.csv \
+  --gsea_input /mnt/f/H3K27/Data/CCC_BC/dge_wilcoxon_full_results.csv \
+  --outdir /mnt/f/H3K27/Data/CCC_BC/
+python pathway.py \
+  --ora_input /mnt/f/H3K27/Data/CCC_OC/dge_genes_for_pathway_analysis.csv \
+  --gsea_input /mnt/f/H3K27/Data/CCC_OC/dge_wilcoxon_full_results.csv \
+  --outdir /mnt/f/H3K27/Data/CCC_OC/
+python pathway.py \
+  --ora_input /mnt/f/H3K27/Data/CCC_EC/dge_genes_for_pathway_analysis.csv \
+  --gsea_input /mnt/f/H3K27/Data/CCC_EC/dge_wilcoxon_full_results.csv \
+  --outdir /mnt/f/H3K27/Data/CCC_EC/
+python pathway_plot.py
+python pathway_plot1.py
+python pathway_plot2.py
+python pathway_plot3.py
+
+//------step 4------//
+python dge_pseudobulk.py --h5ad_path /mnt/f/H3K27/Data/scRNA/scRNA_final.h5ad --output_dir /mnt/f/H3K27/Data/CCC_pseudo --run_pseudobulk --patient_key Sample_ID --batch_key Batch_ID
+cd /mnt/f/H3K27/Data/CCC_pseudo
+Rscript run_edger_batch.R
+cd /mnt/f/H3K27/Data/
+python dge_pseudo_plot.py
+
+...
+
+//------step 2------//
+python3 integrate.py --mode scATAC --input /mnt/f/H3K27/scATAC/ --output /mnt/f/H3K27/Data/scATAC.h5ad --leiden-resolution 0.4 --n-comps 50 --reduction-method svd --min-cells-frac 0.0001 --harmony-max-iter 30 --batch-key Sample --plot-dir /mnt/f/H3K27/Data/ATAC
+
+
+python3 integrate.py \
+  --mode scATAC \
+  --input /mnt/f/H3K27/scATAC_clean/ \
+  --output /mnt/f/H3K27/Data/scATAC.h5ad \
+  --leiden-resolution 0.01 \
+  --n-comps 80 \
+  --n-top-genes 50000 \
+  --batch-key Sample \
+  --no-scaling \
+  --plot-dir /mnt/f/H3K27/Data/scATAC_plots
+
+
+
+
+//------step 1------//
+python3 scpipeline.py scrna \
+  --input_dir /mnt/c/Users/Wei/Downloads/GSE235543_RAW \
+  --output_dir /mnt/f/H3K27/GSE235543_scRNA \
+  --min_genes 100 \
+  --min_cells 1
+
+
+python3 scpipeline.py scatac \
+  --input_dir /mnt/c/Users/Wei/Downloads/GSE235543_RAW \
+  --output_dir /mnt/f/H3K27/GSE235543_scATAC \
+  --peak-min-cells 1 \
+
+
